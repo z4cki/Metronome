@@ -1,63 +1,113 @@
-# 节拍器 (Metronome)
+# Guitar Practice Assistant
 
-一个简单而功能强大的网页版节拍器应用，使用 React 和 TypeScript 构建。
+An interactive practice tool to help guitar learners improve their skills, featuring metronome, finger exercise, and chord transition practice functions.
 
-## 功能特点
+## Features
 
-- 调整速度 (40-240 BPM)
-- 支持多种拍号 (2/4, 3/4, 4/4, 5/4, 6/8)
-- 点按速度功能 (Tap Tempo)
-- 视觉节拍指示器
-- 强拍和弱拍的音频区分
-- 键盘快捷键支持
+### 🎵 Metronome
 
-## 技术栈
+- Precise metronome tool, BPM range 40-240
+- Visual beat indicator with emphasized downbeats
+- Multiple time signature options (2/4, 3/4, 4/4, 5/4, 6/8)
+- Synchronized audio and visual cues
+- Adjust speed by clicking or sliding
 
-- React
+### 🎸 Finger Exercises
+
+- Various finger exercise patterns to help improve finger independence and flexibility
+- Daily auto-reset practice checklist
+- Progress tracking showing daily completion percentage
+- Includes horizontal, vertical, skipping, and spider-style exercise modes
+- Resettable checkbox system
+
+### 🎼 Chord Transition Practice
+
+- 15 common chord combination transition exercises
+- Chord pairs categorized by difficulty (easy, medium, difficult)
+- Adjustable speed control
+- Real-time visual prompts to help practice quick transitions between chords
+- Includes various practical practice techniques
+
+## Tech Stack
+
+- React 18
 - TypeScript
-- Vite
 - Web Audio API
+- CSS3 animations
+- Local storage functionality
 
-## 开发
+## How to Use
 
-```bash
-# 安装依赖
+1. Select the desired function (metronome, finger exercises, or chord transitions)
+2. Adjust settings as needed (speed, time signature, etc.)
+3. Start practicing!
+
+### Using the Metronome
+
+- Adjust speed using the slider or +/- buttons
+- Select the desired time signature
+- Click the start button to activate the metronome
+
+### Using Finger Exercises
+
+- View the daily exercise list
+- Check off items as you complete exercises
+- Track your daily progress
+- Use the "Reset" button to clear all checkboxes when needed
+
+### Using Chord Transition Practice
+
+- Select the chord pairs you want to practice
+- Adjust practice speed
+- Switch chords according to the rhythm displayed on screen
+
+## Development Guide
+
+### Install Dependencies
+
+```
 npm install
+```
 
-# 启动开发服务器
+### Local Development
+
+```
 npm run dev
+```
 
-# 构建生产版本
+### Build Project
+
+```
 npm run build
 ```
 
-## 使用方法
+## FAQ
 
-1. 打开应用
-2. 使用滑块或 +/- 按钮调整速度
-3. 选择所需拍号
-4. 点击"开始"按钮启动节拍器
-5. 可以使用"点按速度"按钮通过点击来设置速度
+**Q: Why do finger exercises reset automatically every day?**  
+A: This is to encourage daily consistent practice and help you build good practice habits.
 
-## 键盘快捷键
+**Q: How do I choose suitable chord transition exercises?**  
+A: It's recommended to start with easy difficulty levels and gradually try medium and difficult chord transitions as you master them.
 
-- 空格键: 开始/停止节拍器
-- T 键: 点按速度
-- 上箭头: 增加速度
-- 下箭头: 减少速度
+**Q: What if the practice rhythm is too fast?**  
+A: Always start practicing at a slower speed and gradually increase it after ensuring your movements are accurate.
 
-## 技术实现
+## Future Plans
 
-- 使用 Web Audio API 生成精确的节拍声音
-- 使用 React 函数组件和 Hooks
-- TypeScript 类型安全
-- 响应式设计，适配移动设备
+- Add more finger exercise types
+- Chord fingering chart functionality
+- User-defined chord practice combinations
+- Scale practice mode
+- Dark mode support
 
-## 运行环境
+## Contribution Guidelines
 
-支持所有现代浏览器，包括:
+Questions and feature requests are welcome! If you'd like to contribute to the project, feel free to submit a Pull Request.
 
-- Chrome
-- Firefox
-- Safari
-- Edge
+## License
+
+MIT
+
+---
+
+Use the Guitar Practice Assistant to make your practice more efficient! 🎸

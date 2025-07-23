@@ -5,7 +5,6 @@ import { GuitarPractice } from "./components/GuitarPractice";
 import { ChordTransition } from "./components/ChordTransition";
 
 function App() {
-  // 用于跟踪当前活动的选项卡
   const [activeTab, setActiveTab] = useState<
     "metronome" | "practice" | "chords"
   >("metronome");
@@ -18,19 +17,19 @@ function App() {
             className={`tab ${activeTab === "metronome" ? "active" : ""}`}
             onClick={() => setActiveTab("metronome")}
           >
-            节拍器
+            Metronome
           </button>
           <button
             className={`tab ${activeTab === "practice" ? "active" : ""}`}
             onClick={() => setActiveTab("practice")}
           >
-            爬格子练习
+            Finger Exercises
           </button>
           <button
             className={`tab ${activeTab === "chords" ? "active" : ""}`}
             onClick={() => setActiveTab("chords")}
           >
-            和弦转换
+            Chord Transition
           </button>
         </div>
 

@@ -61,7 +61,6 @@
   }
 }
 
-/* 响应式设计调整 */
 @media (max-width: 600px) {
   .App {
     padding: 10px;

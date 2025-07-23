@@ -2,9 +2,9 @@ name: Auto Publish Docker Image
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
-      - "./**"
+      - "**"
 
 jobs:
   build-and-push:

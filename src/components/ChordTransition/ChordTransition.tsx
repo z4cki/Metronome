@@ -10,123 +10,121 @@ interface ChordPair {
 }
 
 export const ChordTransition: React.FC = () => {
-  // 和弦对列表
   const chordPairs: ChordPair[] = [
     {
       id: 1,
       chord1: "G",
       chord2: "C",
       difficulty: "easy",
-      description: "基础开放和弦转换",
+      description: "Basic open chord transition",
     },
     {
       id: 2,
       chord1: "C",
       chord2: "D",
       difficulty: "easy",
-      description: "基础开放和弦转换",
+      description: "Basic open chord transition",
     },
     {
       id: 20,
       chord1: "C",
-      chord2: "小F",
+      chord2: "F minor",
       difficulty: "easy",
-      description: "基础开放和弦转换",
+      description: "Basic open chord transition",
     },
     {
       id: 3,
       chord1: "G",
       chord2: "D",
       difficulty: "easy",
-      description: "基础开放和弦转换",
+      description: "Basic open chord transition",
     },
     {
       id: 4,
       chord1: "G",
       chord2: "Em",
       difficulty: "easy",
-      description: "大小调和弦转换",
+      description: "Major-minor chord transition",
     },
     {
       id: 5,
       chord1: "Am",
       chord2: "E",
       difficulty: "medium",
-      description: "小大调和弦转换",
+      description: "Minor-major chord transition",
     },
     {
       id: 6,
       chord1: "C",
       chord2: "Am",
       difficulty: "easy",
-      description: "关系大小调和弦",
+      description: "Relative major-minor chords",
     },
     {
       id: 7,
       chord1: "F",
       chord2: "C",
       difficulty: "medium",
-      description: "包含横按的和弦转换",
+      description: "Barre chord transition",
     },
     {
       id: 8,
       chord1: "D",
       chord2: "A",
       difficulty: "medium",
-      description: "手指位置大变动的转换",
+      description: "Large finger position change",
     },
     {
       id: 9,
       chord1: "Bm",
       chord2: "G",
       difficulty: "hard",
-      description: "横按与开放和弦转换",
+      description: "Barre to open chord transition",
     },
     {
       id: 10,
       chord1: "F",
       chord2: "G7",
       difficulty: "medium",
-      description: "基础与七和弦转换",
+      description: "Basic to seventh chord transition",
     },
     {
       id: 11,
       chord1: "Cmaj7",
       chord2: "Am7",
       difficulty: "medium",
-      description: "大小七和弦转换",
+      description: "Major-minor seventh chord transition",
     },
     {
       id: 12,
       chord1: "Em7",
       chord2: "A7",
       difficulty: "medium",
-      description: "小七与属七和弦转换",
+      description: "Minor seventh to dominant seventh transition",
     },
     {
       id: 13,
       chord1: "D",
       chord2: "Bm",
       difficulty: "medium",
-      description: "大三和小三和弦转换",
+      description: "Major to minor third transition",
     },
     {
       id: 14,
       chord1: "F#m",
       chord2: "B",
       difficulty: "hard",
-      description: "进阶和弦转换",
+      description: "Advanced chord transition",
     },
     {
       id: 15,
       chord1: "Dm",
       chord2: "G7",
       difficulty: "medium",
-      description: "二五和弦进行",
+      description: "II-V chord progression",
     },
   ];
 
-  // 状态
   const [activeChordPair, setActiveChordPair] = useState<ChordPair | null>(
     null
   );
@@ -138,18 +136,15 @@ export const ChordTransition: React.FC = () => {
     "all" | "easy" | "medium" | "hard"
   >("all");
 
-  // Refs
   const timerRef = useRef<number | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const countIntervalRef = useRef<number | null>(null);
 
-  // 筛选和弦对
   const filteredChordPairs =
     selectedDifficulty === "all"
       ? chordPairs
       : chordPairs.filter((pair) => pair.difficulty === selectedDifficulty);
 
-  // 初始化音频上下文
   const initAudio = () => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext ||
@@ -160,7 +155,6 @@ export const ChordTransition: React.FC = () => {
     }
   };
 
-  // 播放点击声音
   const playClick = (isAccented: boolean = false) => {
     if (!audioContextRef.current) return;
 
@@ -182,7 +176,6 @@ export const ChordTransition: React.FC = () => {
     osc.stop(audioContextRef.current.currentTime + 0.05);
   };
 
-  // 开始和弦转换练习
   const startChordTransition = () => {
     if (!activeChordPair) return;
 
@@ -190,47 +183,37 @@ export const ChordTransition: React.FC = () => {
     setIsPlaying(true);
     setCurrentChord("");
 
-    // 先播放第一拍，设置倒计时为4
     playClick(true);
     setCountdown(4);
 
-    // 倒计时
-    let count = 3; // 从3开始，因为我们已经播放了第一拍并显示了4
+    let count = 3;
     countIntervalRef.current = window.setInterval(() => {
       if (count > 0) {
-        playClick(false); // 非第一拍没有重音
+        playClick(false);
         setCountdown(count);
         count -= 1;
       } else {
-        // 结束倒计时
         if (countIntervalRef.current) {
           clearInterval(countIntervalRef.current);
           countIntervalRef.current = null;
         }
-        // 设置倒计时为0，这将触发UI切换到和弦显示
         setCountdown(0);
         startChordSwitch();
       }
     }, (60 / bpm) * 1000);
   };
 
-  // 开始和弦切换
   const startChordSwitch = () => {
     if (!activeChordPair) return;
 
-    // 初始设置为第一个和弦
     setCurrentChord(activeChordPair.chord1);
     playClick(true);
 
-    // 使用变量跟踪是否显示第一个和弦
-    // 由于我们已经显示了第一个和弦，所以下一个应该是第二个和弦
-    let isFirstChord = true; // 改为 true，因为下一个要显示第二个和弦
+    let isFirstChord = true;
 
     timerRef.current = window.setInterval(() => {
-      // 切换和弦状态
       isFirstChord = !isFirstChord;
 
-      // 设置当前和弦
       setCurrentChord(
         isFirstChord ? activeChordPair.chord1 : activeChordPair.chord2
       );
@@ -239,32 +222,27 @@ export const ChordTransition: React.FC = () => {
     }, (60 / bpm) * 1000);
   };
 
-  // 停止练习
   const stopChordTransition = () => {
     setIsPlaying(false);
     setCurrentChord("");
-    setCountdown(4); // 重置倒计时
+    setCountdown(4);
 
-    // 清除和弦切换定时器
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
 
-    // 清除倒计时定时器
     if (countIntervalRef.current) {
       clearInterval(countIntervalRef.current);
       countIntervalRef.current = null;
     }
   };
 
-  // 选择和弦对
   const selectChordPair = (pair: ChordPair) => {
     stopChordTransition();
     setActiveChordPair(pair);
   };
 
-  // 组件卸载时清理
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -278,11 +256,11 @@ export const ChordTransition: React.FC = () => {
 
   return (
     <div className="chord-transition-container">
-      <h1>和弦转换练习</h1>
+      <h1>Chord Transition Practice</h1>
 
       <div className="control-panel">
         <div className="bpm-control">
-          <label htmlFor="bpm-slider">速度 (BPM): {bpm}</label>
+          <label htmlFor="bpm-slider">Speed (BPM): {bpm}</label>
           <input
             type="range"
             id="bpm-slider"
@@ -295,31 +273,31 @@ export const ChordTransition: React.FC = () => {
         </div>
 
         <div className="difficulty-filter">
-          <span>难度筛选:</span>
+          <span>Difficulty Filter:</span>
           <div className="filter-buttons">
             <button
               className={selectedDifficulty === "all" ? "active" : ""}
               onClick={() => setSelectedDifficulty("all")}
             >
-              全部
+              All
             </button>
             <button
               className={selectedDifficulty === "easy" ? "active" : ""}
               onClick={() => setSelectedDifficulty("easy")}
             >
-              简单
+              Easy
             </button>
             <button
               className={selectedDifficulty === "medium" ? "active" : ""}
               onClick={() => setSelectedDifficulty("medium")}
             >
-              中等
+              Medium
             </button>
             <button
               className={selectedDifficulty === "hard" ? "active" : ""}
               onClick={() => setSelectedDifficulty("hard")}
             >
-              困难
+              Hard
             </button>
           </div>
         </div>
@@ -338,7 +316,9 @@ export const ChordTransition: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="select-prompt">请从下方选择一组和弦进行练习</div>
+              <div className="select-prompt">
+                Please select a chord pair to practice
+              </div>
             )
           ) : countdown > 0 ? (
             <div className="countdown">{countdown}</div>
@@ -353,12 +333,12 @@ export const ChordTransition: React.FC = () => {
             onClick={isPlaying ? stopChordTransition : startChordTransition}
             disabled={!activeChordPair && !isPlaying}
           >
-            {isPlaying ? "停止" : "开始"}
+            {isPlaying ? "Stop" : "Start"}
           </button>
         </div>
       </div>
 
-      <h2>和弦转换列表</h2>
+      <h2>Chord Transition List</h2>
       <div className="chord-pairs-list">
         {filteredChordPairs.map((pair) => (
           <div
@@ -374,10 +354,10 @@ export const ChordTransition: React.FC = () => {
             <div className="chord-info">
               <span className={`difficulty-badge ${pair.difficulty}`}>
                 {pair.difficulty === "easy"
-                  ? "简单"
+                  ? "Easy"
                   : pair.difficulty === "medium"
-                  ? "中等"
-                  : "困难"}
+                  ? "Medium"
+                  : "Hard"}
               </span>
               <span className="chord-description">{pair.description}</span>
             </div>
@@ -386,13 +366,16 @@ export const ChordTransition: React.FC = () => {
       </div>
 
       <div className="practice-tips">
-        <h3>练习提示</h3>
+        <h3>Practice Tips</h3>
         <ul>
-          <li>每次练习专注于两个和弦间的快速、清晰转换</li>
-          <li>开始时使用较慢的速度，确保每个音符都能清晰发声</li>
-          <li>关注手指位置和移动路径，减少不必要的动作</li>
-          <li>逐渐提高速度，挑战自己的极限</li>
-          <li>即使不能完全按准，也要保持节奏感</li>
+          <li>Focus on quick, clean transitions between chord pairs</li>
+          <li>Start with slower speeds to ensure each note rings clearly</li>
+          <li>
+            Pay attention to finger positions and movement paths to minimize
+            unnecessary motion
+          </li>
+          <li>Gradually increase the speed to challenge yourself</li>
+          <li>Maintain rhythm even if you can't perfectly form every chord</li>
         </ul>
       </div>
     </div>
