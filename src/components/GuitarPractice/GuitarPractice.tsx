@@ -4,7 +4,7 @@ import "./GuitarPractice.css";
 interface PracticeItem {
   id: number;
   name: string;
-  description: string;
+  description: string | string[];
   completed: boolean;
 }
 
@@ -52,6 +52,19 @@ export const GuitarPractice: React.FC = () => {
         id: 6,
         name: "Ring-Pinky Finger Exercise",
         description: "Practice 1-4-3-4 and 2-4-3-4 patterns on one string",
+        completed: false,
+      },
+      {
+        id: 7,
+        name: "Crazy Finger Exercise",
+        description: [
+          "1234-12-12-12-12-12",
+          "1234-13-13-13-13-13",
+          "1234-14-14-14-14-14",
+          "1234-23-23-23-23-23",
+          "1234-24-24-24-24-24",
+          "1234-34-34-34-34-34",
+        ],
         completed: false,
       },
     ];
@@ -151,7 +164,13 @@ export const GuitarPractice: React.FC = () => {
             </div>
             <div className="practice-content">
               <h3>{item.name}</h3>
-              <p>{item.description}</p>
+              <p>
+                {Array.isArray(item.description)
+                  ? item.description.map((line, index) => (
+                      <p key={index}>{line}</p>
+                    ))
+                  : item.description}
+              </p>
             </div>
           </div>
         ))}

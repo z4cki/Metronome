@@ -19,6 +19,13 @@ export const ChordTransition: React.FC = () => {
       description: "Basic open chord transition",
     },
     {
+      id: 20,
+      chord1: "C",
+      chord2: "F minor",
+      difficulty: "easy",
+      description: "Basic open chord transition",
+    },
+    {
       id: 2,
       chord1: "C",
       chord2: "D",
@@ -26,9 +33,23 @@ export const ChordTransition: React.FC = () => {
       description: "Basic open chord transition",
     },
     {
-      id: 20,
-      chord1: "C",
-      chord2: "F minor",
+      id: 21,
+      chord1: "Am",
+      chord2: "Dm",
+      difficulty: "easy",
+      description: "Basic open chord transition",
+    },
+    {
+      id: 22,
+      chord1: "Em",
+      chord2: "Dm",
+      difficulty: "easy",
+      description: "Basic open chord transition",
+    },
+    {
+      id: 23,
+      chord1: "Am",
+      chord2: "Em",
       difficulty: "easy",
       description: "Basic open chord transition",
     },
@@ -48,17 +69,17 @@ export const ChordTransition: React.FC = () => {
     },
     {
       id: 5,
-      chord1: "Am",
-      chord2: "E",
-      difficulty: "medium",
-      description: "Minor-major chord transition",
-    },
-    {
-      id: 6,
       chord1: "C",
       chord2: "Am",
       difficulty: "easy",
       description: "Relative major-minor chords",
+    },
+    {
+      id: 6,
+      chord1: "Am",
+      chord2: "E",
+      difficulty: "medium",
+      description: "Minor-major chord transition",
     },
     {
       id: 7,
@@ -75,11 +96,11 @@ export const ChordTransition: React.FC = () => {
       description: "Large finger position change",
     },
     {
-      id: 9,
-      chord1: "Bm",
-      chord2: "G",
-      difficulty: "hard",
-      description: "Barre to open chord transition",
+      id: 15,
+      chord1: "Dm",
+      chord2: "G7",
+      difficulty: "medium",
+      description: "II-V chord progression",
     },
     {
       id: 10,
@@ -110,18 +131,18 @@ export const ChordTransition: React.FC = () => {
       description: "Major to minor third transition",
     },
     {
+      id: 9,
+      chord1: "Bm",
+      chord2: "G",
+      difficulty: "hard",
+      description: "Barre to open chord transition",
+    },
+    {
       id: 14,
       chord1: "F#m",
       chord2: "B",
       difficulty: "hard",
       description: "Advanced chord transition",
-    },
-    {
-      id: 15,
-      chord1: "Dm",
-      chord2: "G7",
-      difficulty: "medium",
-      description: "II-V chord progression",
     },
   ];
 
