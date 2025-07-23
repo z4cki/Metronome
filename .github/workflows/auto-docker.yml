@@ -22,7 +22,7 @@ jobs:
       - name: Build and push metronome
         uses: docker/build-push-action@v3
         with:
-          context: metronome
+          context: .
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/metronome:latest
