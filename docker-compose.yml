@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  metronome:
+    image: xxx/metronome:latest
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
