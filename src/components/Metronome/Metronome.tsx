@@ -166,137 +166,132 @@ export const Metronome: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="metronome">
       <h1>Metronome</h1>
 
-      <div className="metronome">
-        <div className="bpm-display">
-          <input
-            type="number"
-            value={tempoBpm}
-            onChange={(e) => {
-              if (isPlaying) {
-                stopMetronome();
-              }
-              setTempoBpm(e.target.value);
+      <div className="bpm-display">
+        <input
+          type="number"
+          value={tempoBpm}
+          onChange={(e) => {
+            if (isPlaying) {
+              stopMetronome();
+            }
+            setTempoBpm(e.target.value);
 
-              const newTempo = parseInt(e.target.value);
-              if (!isNaN(newTempo) && newTempo >= 40 && newTempo <= 240) {
-                setTempo(newTempo);
-              }
-            }}
-            onBlur={() => {
-              const validTempo = Math.max(
-                40,
-                Math.min(240, parseInt(tempoBpm) || 120)
-              );
-              setTempo(validTempo);
-              setTempoBpm(validTempo.toString());
+            const newTempo = parseInt(e.target.value);
+            if (!isNaN(newTempo) && newTempo >= 40 && newTempo <= 240) {
+              setTempo(newTempo);
+            }
+          }}
+          onBlur={() => {
+            const validTempo = Math.max(
+              40,
+              Math.min(240, parseInt(tempoBpm) || 120)
+            );
+            setTempo(validTempo);
+            setTempoBpm(validTempo.toString());
 
-              if (isPlaying) {
-                setTimeout(() => startMetronome(), 10);
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.currentTarget.blur();
-              }
-            }}
-            min="40"
-            max="240"
-            className="bpm-input"
-          />
-          <span className="bpm-label">BPM</span>
-        </div>
+            if (isPlaying) {
+              setTimeout(() => startMetronome(), 10);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.currentTarget.blur();
+            }
+          }}
+          min="40"
+          max="240"
+          className="bpm-input"
+        />
+        <span className="bpm-label">BPM</span>
+      </div>
 
-        <div className="tempo-settings">
-          <button className="tempo-button" onClick={decreaseTempo}>
-            -
-          </button>
-          <input
-            type="range"
-            className="tempo-slider"
-            min="40"
-            max="240"
-            value={tempo}
-            onChange={handleTempoChange}
-          />
-          <button className="tempo-button" onClick={increaseTempo}>
-            +
-          </button>
-        </div>
+      <div className="tempo-settings">
+        <button className="tempo-button" onClick={decreaseTempo}>
+          -
+        </button>
+        <input
+          type="range"
+          className="tempo-slider"
+          min="40"
+          max="240"
+          value={tempo}
+          onChange={handleTempoChange}
+        />
+        <button className="tempo-button" onClick={increaseTempo}>
+          +
+        </button>
+      </div>
 
-        <div className="beat-settings">
-          <div className="beats-per-measure">
-            <label>Time Signature:</label>
-            <div className="time-signature-buttons">
-              <button
-                className={`time-sig-button ${
-                  beatsPerMeasure === 2 ? "active" : ""
-                }`}
-                onClick={() => handleBeatsPerMeasureChange(2)}
-              >
-                2/4
-              </button>
-              <button
-                className={`time-sig-button ${
-                  beatsPerMeasure === 3 ? "active" : ""
-                }`}
-                onClick={() => handleBeatsPerMeasureChange(3)}
-              >
-                3/4
-              </button>
-              <button
-                className={`time-sig-button ${
-                  beatsPerMeasure === 4 ? "active" : ""
-                }`}
-                onClick={() => handleBeatsPerMeasureChange(4)}
-              >
-                4/4
-              </button>
-              <button
-                className={`time-sig-button ${
-                  beatsPerMeasure === 5 ? "active" : ""
-                }`}
-                onClick={() => handleBeatsPerMeasureChange(5)}
-              >
-                5/4
-              </button>
-              <button
-                className={`time-sig-button ${
-                  beatsPerMeasure === 6 ? "active" : ""
-                }`}
-                onClick={() => handleBeatsPerMeasureChange(6)}
-              >
-                6/8
-              </button>
-            </div>
+      <div className="beat-settings">
+        <div className="beats-per-measure">
+          <div className="time-signature-buttons">
+            <button
+              className={`time-sig-button ${
+                beatsPerMeasure === 2 ? "active" : ""
+              }`}
+              onClick={() => handleBeatsPerMeasureChange(2)}
+            >
+              2/4
+            </button>
+            <button
+              className={`time-sig-button ${
+                beatsPerMeasure === 3 ? "active" : ""
+              }`}
+              onClick={() => handleBeatsPerMeasureChange(3)}
+            >
+              3/4
+            </button>
+            <button
+              className={`time-sig-button ${
+                beatsPerMeasure === 4 ? "active" : ""
+              }`}
+              onClick={() => handleBeatsPerMeasureChange(4)}
+            >
+              4/4
+            </button>
+            <button
+              className={`time-sig-button ${
+                beatsPerMeasure === 5 ? "active" : ""
+              }`}
+              onClick={() => handleBeatsPerMeasureChange(5)}
+            >
+              5/4
+            </button>
+            <button
+              className={`time-sig-button ${
+                beatsPerMeasure === 6 ? "active" : ""
+              }`}
+              onClick={() => handleBeatsPerMeasureChange(6)}
+            >
+              6/8
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className="controls">
-          <button
-            className={`control-button start-button ${
-              isPlaying ? "active" : ""
-            }`}
-            onClick={togglePlay}
-          >
-            {isPlaying ? "Stop" : "Start"}
-          </button>
-        </div>
+      <div className="controls">
+        <button
+          className={`control-button start-button ${isPlaying ? "active" : ""}`}
+          onClick={togglePlay}
+        >
+          {isPlaying ? "Stop" : "Start"}
+        </button>
+      </div>
 
-        <div className="visual-indicator">
-          <div className="beat-dots">
-            {beatDots.map((dot) => (
-              <div
-                key={dot.id}
-                className={`beat-dot ${dot.isAccent ? "accent" : ""} ${
-                  currentBeat === dot.id && isPlaying ? "active" : ""
-                }`}
-                title={dot.isAccent ? "First Beat" : `Beat ${dot.id + 1}`}
-              />
-            ))}
-          </div>
+      <div className="visual-indicator">
+        <div className="beat-dots">
+          {beatDots.map((dot) => (
+            <div
+              key={dot.id}
+              className={`beat-dot ${dot.isAccent ? "accent" : ""} ${
+                currentBeat === dot.id && isPlaying ? "active" : ""
+              }`}
+              title={dot.isAccent ? "First Beat" : `Beat ${dot.id + 1}`}
+            />
+          ))}
         </div>
       </div>
     </div>

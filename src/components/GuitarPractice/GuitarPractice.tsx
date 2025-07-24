@@ -127,8 +127,6 @@ export const GuitarPractice: React.FC = () => {
 
   return (
     <div className="guitar-practice-container">
-      <h1>Daily Guitar Finger Exercises</h1>
-
       <div className="practice-progress">
         <div className="progress-bar">
           <div

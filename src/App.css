@@ -1,8 +1,24 @@
 .App {
   text-align: center;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.layout-container {
+  display: flex;
+  gap: 20px;
+}
+
+.metronome-section {
+  flex: 0 0 350px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.content-section {
+  flex: 1;
 }
 
 .tabs-container {
@@ -58,6 +74,18 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column;
+  }
+
+  .metronome-section {
+    flex: 0 0 auto;
+    width: 100%;
+    position: static;
   }
 }
 

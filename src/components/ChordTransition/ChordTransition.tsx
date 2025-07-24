@@ -149,16 +149,12 @@ export const ChordTransition: React.FC = () => {
   const [activeChordPair, setActiveChordPair] = useState<ChordPair | null>(
     null
   );
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [bpm, setBpm] = useState(60);
-  const [countdown, setCountdown] = useState(4);
-  const [currentChord, setCurrentChord] = useState<string>("");
+
   const [selectedDifficulty, setSelectedDifficulty] = useState<
     "all" | "easy" | "medium" | "hard"
   >("all");
 
   const timerRef = useRef<number | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
   const countIntervalRef = useRef<number | null>(null);
 
   const filteredChordPairs =
@@ -166,101 +162,7 @@ export const ChordTransition: React.FC = () => {
       ? chordPairs
       : chordPairs.filter((pair) => pair.difficulty === selectedDifficulty);
 
-  const initAudio = () => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-    }
-    if (audioContextRef.current.state === "suspended") {
-      audioContextRef.current.resume();
-    }
-  };
-
-  const playClick = (isAccented: boolean = false) => {
-    if (!audioContextRef.current) return;
-
-    const osc = audioContextRef.current.createOscillator();
-    const gainNode = audioContextRef.current.createGain();
-
-    osc.connect(gainNode);
-    gainNode.connect(audioContextRef.current.destination);
-
-    if (isAccented) {
-      osc.frequency.value = 1200;
-      gainNode.gain.value = 0.7;
-    } else {
-      osc.frequency.value = 800;
-      gainNode.gain.value = 0.5;
-    }
-
-    osc.start();
-    osc.stop(audioContextRef.current.currentTime + 0.05);
-  };
-
-  const startChordTransition = () => {
-    if (!activeChordPair) return;
-
-    initAudio();
-    setIsPlaying(true);
-    setCurrentChord("");
-
-    playClick(true);
-    setCountdown(4);
-
-    let count = 3;
-    countIntervalRef.current = window.setInterval(() => {
-      if (count > 0) {
-        playClick(false);
-        setCountdown(count);
-        count -= 1;
-      } else {
-        if (countIntervalRef.current) {
-          clearInterval(countIntervalRef.current);
-          countIntervalRef.current = null;
-        }
-        setCountdown(0);
-        startChordSwitch();
-      }
-    }, (60 / bpm) * 1000);
-  };
-
-  const startChordSwitch = () => {
-    if (!activeChordPair) return;
-
-    setCurrentChord(activeChordPair.chord1);
-    playClick(true);
-
-    let isFirstChord = true;
-
-    timerRef.current = window.setInterval(() => {
-      isFirstChord = !isFirstChord;
-
-      setCurrentChord(
-        isFirstChord ? activeChordPair.chord1 : activeChordPair.chord2
-      );
-
-      playClick(true);
-    }, (60 / bpm) * 1000);
-  };
-
-  const stopChordTransition = () => {
-    setIsPlaying(false);
-    setCurrentChord("");
-    setCountdown(4);
-
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-
-    if (countIntervalRef.current) {
-      clearInterval(countIntervalRef.current);
-      countIntervalRef.current = null;
-    }
-  };
-
   const selectChordPair = (pair: ChordPair) => {
-    stopChordTransition();
     setActiveChordPair(pair);
   };
 
@@ -277,24 +179,8 @@ export const ChordTransition: React.FC = () => {
 
   return (
     <div className="chord-transition-container">
-      <h1>Chord Transition Practice</h1>
-
       <div className="control-panel">
-        <div className="bpm-control">
-          <label htmlFor="bpm-slider">Speed (BPM): {bpm}</label>
-          <input
-            type="range"
-            id="bpm-slider"
-            min="40"
-            max="120"
-            value={bpm}
-            onChange={(e) => setBpm(Number(e.target.value))}
-            className="bpm-slider"
-          />
-        </div>
-
         <div className="difficulty-filter">
-          <span>Difficulty Filter:</span>
           <div className="filter-buttons">
             <button
               className={selectedDifficulty === "all" ? "active" : ""}
@@ -326,36 +212,20 @@ export const ChordTransition: React.FC = () => {
 
       <div className="practice-area">
         <div className="chord-display">
-          {!isPlaying ? (
-            activeChordPair ? (
-              <div className="selected-pair-info">
-                <div className="chord-pair-title">
-                  {activeChordPair.chord1} ⟷ {activeChordPair.chord2}
-                </div>
-                <div className="chord-pair-desc">
-                  {activeChordPair.description}
-                </div>
+          {activeChordPair ? (
+            <div className="selected-pair-info">
+              <div className="chord-pair-title">
+                {activeChordPair?.chord1} ⟷ {activeChordPair?.chord2}
               </div>
-            ) : (
-              <div className="select-prompt">
-                Please select a chord pair to practice
+              <div className="chord-pair-desc">
+                {activeChordPair?.description}
               </div>
-            )
-          ) : countdown > 0 ? (
-            <div className="countdown">{countdown}</div>
+            </div>
           ) : (
-            <div className="current-chord">{currentChord}</div>
+            <div className="select-prompt">
+              Please select a chord pair to practice
+            </div>
           )}
-        </div>
-
-        <div className="action-buttons">
-          <button
-            className={`start-button ${isPlaying ? "stop" : ""}`}
-            onClick={isPlaying ? stopChordTransition : startChordTransition}
-            disabled={!activeChordPair && !isPlaying}
-          >
-            {isPlaying ? "Stop" : "Start"}
-          </button>
         </div>
       </div>
 
@@ -390,12 +260,12 @@ export const ChordTransition: React.FC = () => {
         <h3>Practice Tips</h3>
         <ul>
           <li>Focus on quick, clean transitions between chord pairs</li>
-          <li>Start with slower speeds to ensure each note rings clearly</li>
+          <li>Use the metronome on the left to set your practice tempo</li>
           <li>
             Pay attention to finger positions and movement paths to minimize
             unnecessary motion
           </li>
-          <li>Gradually increase the speed to challenge yourself</li>
+          <li>Gradually increase the metronome speed to challenge yourself</li>
           <li>Maintain rhythm even if you can't perfectly form every chord</li>
         </ul>
       </div>
