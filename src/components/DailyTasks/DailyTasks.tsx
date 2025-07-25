@@ -22,7 +22,7 @@ export const DailyTasks = () => {
       description: ["53231323", "53(12)3", "532123"],
       duration: 5,
       completed: false,
-      timeLeft: 5 * 60,
+      timeLeft: 5,
       isRunning: false,
       alarmActive: false,
     },
@@ -181,9 +181,7 @@ export const DailyTasks = () => {
 
   useEffect(() => {
     // Create audio instance once
-    audioRef.current = new Audio(
-      "https://img.tukuppt.com/newpreview_music/09/00/23/5c890ced06a0374462.mp3"
-    );
+    audioRef.current = new Audio("/audio/alarm.mp3");
     audioRef.current.loop = true;
 
     // Cleanup function to stop any alarms and timers
