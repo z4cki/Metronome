@@ -22,7 +22,7 @@ export const DailyTasks = () => {
       description: ["53231323", "53(12)3", "532123"],
       duration: 5,
       completed: false,
-      timeLeft: 5,
+      timeLeft: 5 * 60,
       isRunning: false,
       alarmActive: false,
     },
