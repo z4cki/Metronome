@@ -3,7 +3,20 @@ import "./ChordDiagrams.css";
 
 export const ChordDiagrams: React.FC = () => {
   // List of available chord images
-  const chords = ["C", "G", "Fm", "C7", "G7", "Am", "Dm", "Em"];
+  const chords = [
+    "C",
+    "G",
+    "Fm",
+    "C7",
+    "G7",
+    "Am",
+    "Dm",
+    "Em",
+    "E7",
+    "Bm7-5",
+    "Cmaj7",
+    "Dsus2",
+  ];
 
   return (
     <div className="chord-diagrams">
