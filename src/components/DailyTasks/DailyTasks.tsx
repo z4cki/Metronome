@@ -14,65 +14,54 @@ interface Task {
   alarmActive?: boolean;
 }
 
+const patterns = [
+  {
+    name: "Mi",
+    path: "pattern_mi.png",
+  },
+  {
+    name: "Sol",
+    path: "pattern_sol.png",
+  },
+  {
+    name: "La",
+    path: "pattern_la.png",
+  },
+  {
+    name: "Do",
+    path: "pattern_do.png",
+  },
+  {
+    name: "Re",
+    path: "pattern_re.png",
+  },
+];
+
 export const DailyTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([
     {
       id: 1,
-      title: "Open String Picking",
-      description: ["53231323", "53(12)3", "532123"],
-      duration: 5,
+      title: "Pattern Practice",
+      description: [
+        ...patterns.map((pattern) => (
+          <div className="hover-image-container" key={pattern.name}>
+            <span className="hover-text">{pattern.name}</span>
+            <div className="hover-image">
+              <img src={`/images/pattern/${pattern.path}`} alt={pattern.name} />
+            </div>
+          </div>
+        )),
+      ],
+      duration: 15,
       completed: false,
-      timeLeft: 5 * 60,
+      timeLeft: 15 * 60,
       isRunning: false,
       alarmActive: false,
     },
     {
       id: 2,
-      title: "Scale Practice",
-      description: [
-        <div className="hover-image-container" key="scales-tooltip">
-          <span className="hover-text">La</span>
-          <div className="hover-image">
-            <img src="/images/La.png" alt="Scale Diagram" />
-          </div>
-        </div>,
-      ],
-      duration: 15,
-      completed: false,
-      timeLeft: 15 * 60,
-      isRunning: false,
-      alarmActive: false,
-    },
-    {
-      id: 3,
-      title: "Finger Exercise",
-      description: [
-        "1234-1234-1234",
-        "4321-4321-4321",
-        "1234-2345-3456",
-        "6543-5432-4321",
-        "1324-1324-1324",
-        "4231-4231-4231",
-        "1434-2434-3424",
-        "Cross-string-1(2)34-1(2)3(4)",
-      ],
-      duration: 15,
-      completed: false,
-      timeLeft: 15 * 60,
-      isRunning: false,
-      alarmActive: false,
-    },
-    {
-      id: 4,
       title: "Chord Transitions",
-      description: [
-        "C-G-C-G",
-        "C-Fm-C-Fm",
-        "G-Fm-G-Fm",
-        "Am-Em-Am-Em",
-        "Dm-Em-Dm-Em",
-        "Em-Dm-Em-Dm",
-      ],
+      description: ["C-Dm-Em-F-G-Am-Bdim"],
       duration: 15,
       completed: false,
       timeLeft: 15 * 60,
@@ -118,12 +107,17 @@ export const DailyTasks = () => {
             if (key === "description" && Array.isArray(value)) {
               return value.map((desc) => {
                 if (typeof desc === "object" && desc && desc.__isReactNode) {
-                  // Recreate the React component for task 2 (爬音阶)
+                  const pattern = patterns.find(
+                    (pattern) => pattern.name === desc.name
+                  );
                   return (
                     <div className="hover-image-container" key="scales-tooltip">
-                      <span className="hover-text">La</span>
+                      <span className="hover-text">{pattern?.name}</span>
                       <div className="hover-image">
-                        <img src="/images/La.png" alt="音阶图示" />
+                        <img
+                          src={`/images/pattern/${pattern?.path}`}
+                          alt={pattern?.name}
+                        />
                       </div>
                     </div>
                   );
@@ -161,7 +155,11 @@ export const DailyTasks = () => {
             // Mark ReactNode elements with a flag so we can reconstruct them later
             description: task.description.map((desc) => {
               if (React.isValidElement(desc)) {
-                return { __isReactNode: true, id: task.id };
+                return {
+                  __isReactNode: true,
+                  id: task.id,
+                  name: (desc.props as any).children[0].props.children,
+                };
               }
               return desc;
             }),

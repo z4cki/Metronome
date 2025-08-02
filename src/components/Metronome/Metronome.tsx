@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useBeatVisualization } from "../../hooks/useBeatVisualization";
 import "./Metronome.css";
+import { Button } from "antd";
 
 export const Metronome: React.FC = () => {
   const [tempo, setTempo] = useState<number>(60);
@@ -13,6 +14,8 @@ export const Metronome: React.FC = () => {
 
   const audioContextRef = useRef<AudioContext | null>(null);
   const timerIDRef = useRef<number | null>(null);
+
+  const [accent, setAccent] = useState(true);
 
   const initAudio = () => {
     if (!audioContextRef.current) {
@@ -64,7 +67,7 @@ export const Metronome: React.FC = () => {
 
     const beatTime = (60 / tempo) * 1000;
 
-    playClick(true);
+    playClick(true && accent);
 
     let beat = 0;
 
@@ -72,7 +75,7 @@ export const Metronome: React.FC = () => {
       beat = (beat + 1) % beatsPerMeasure;
       setCurrentBeat(beat);
 
-      playClick(beat === 0);
+      playClick(beat === 0 && accent);
 
       timerIDRef.current = window.setTimeout(playBeat, beatTime);
     };
@@ -279,6 +282,17 @@ export const Metronome: React.FC = () => {
         >
           {isPlaying ? "Stop" : "Start"}
         </button>
+
+        <Button
+          type={accent ? "primary" : "default"}
+          size="middle"
+          onClick={() => {
+            stopMetronome();
+            setAccent(!accent);
+          }}
+        >
+          Accent
+        </Button>
       </div>
 
       <div className="visual-indicator">
